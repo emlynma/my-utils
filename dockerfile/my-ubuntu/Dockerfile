@@ -17,10 +17,12 @@ RUN useradd -m -p $(openssl passwd -1 emlyn) -s /bin/bash emlyn && usermod -aG s
 # 拷贝文件
 COPY root/ /root/
 COPY emlyn/ /home/emlyn/
-RUN chown -R emlyn:emlyn /home/emlyn
+
+# 用户配置
+RUN sh /home/emlyn/init.sh && chown -R emlyn:emlyn /home/emlyn
 
 # 暴露端口
 EXPOSE 22
 
 # 启动服务
-CMD ["/bin/bash", "/root/boot.sh"]
+CMD ["sh", "/root/boot.sh"]
